@@ -140,10 +140,10 @@ void initialize_radio()
 void loop()
 {
   led_on();
-
-  float value = get_gasValue();
+  int calibration = 216;
+  float value = get_gasValue()*calibration;
   Serial.println("TXing test de moi : " + String(value));
-  myLora.tx("!"); //one byte, blocking function
+  myLora.tx(String(value)); //one byte, blocking function
 
   led_off();
   delay(200);

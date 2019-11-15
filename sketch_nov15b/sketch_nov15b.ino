@@ -32,7 +32,7 @@ void loop()
   int gasValue = analogRead(gasSensorPin);
 
   float vol;
-  vol=(float)gasValue/1024;
+  vol=(float)gasValue/1024*216;
   Serial.print("The gas density is ");
   Serial.println(vol);
   delay(100);
