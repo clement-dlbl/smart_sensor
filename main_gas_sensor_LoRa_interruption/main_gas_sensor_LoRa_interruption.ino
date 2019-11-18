@@ -139,13 +139,19 @@ void initialize_radio()
 // the loop routine runs over and over again forever:
 void loop()
 {
-  led_on();
+  //led_on();
   float value = get_gasValue();
+
+  if(value > 50){
+    throw_interruption(value);
+  }
+
+  
   Serial.println("TXing test de moi : " + String(value));
   myLora.tx(String(value)); //one byte, blocking function
 
-  led_off();
-  delay(200);
+  //led_off();
+  delay(500);
 }
 
 void led_on()
@@ -168,5 +174,17 @@ float get_gasValue()
   Serial.print("The gas density is ");
   Serial.println(vol);
   return vol;
-  delay(100);
+}
+
+void throw_interruption(int value){
+  Serial.println("TX interruption : " + String(value));
+  Serial.println("Gas value anormally high (over 50ppm)");
+  myLora.tx(String(value)); //one byte, blocking function
+
+  while(1){
+    led_on();
+    delay(500);
+    led_off();
+    delay(500);
+  }
 }
